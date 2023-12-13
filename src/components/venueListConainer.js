@@ -74,7 +74,7 @@ function VenueItem({
   };
 
   return (
-    <button
+    <button 
       className=" bg-white rounded-xl shadow m-2"
       style={{ width: "320px", height: "296px" }}
       onClick={isAdmin ? handleEditClick : handleRentClick}>

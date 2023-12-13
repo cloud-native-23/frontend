@@ -67,7 +67,7 @@ function NavBar() {
   };
 
   return (
-    <Navbar collapseOnSelect expand="lg" bg="light-cream" onToggle={setToggle}>
+    <Navbar data-testid="navbar" collapseOnSelect expand="lg" bg="light-cream" onToggle={setToggle}>
       <Container className="m-2" style={{ maxWidth: "initial" }}>
         <Navbar.Brand href="/main" bsPrefix="text-2xl no-underline" className="text-dark-blue">
           {t("Stadium Matching System")}
@@ -83,7 +83,7 @@ function NavBar() {
                 </Nav.Link>
               )
             }
-            <Nav.Link href="/main" className={styles.navLink}>
+            <Nav.Link data-testid="home" href="/main" className={styles.navLink}>
               {t("Home")}
             </Nav.Link>
             {status === "authenticated" ? (
@@ -100,7 +100,7 @@ function NavBar() {
                 {t("Login")}
               </button>
             )}
-            <Nav.Link className={styles.navLink} onClick={handleLang}>
+            <Nav.Link data-testid="lang" className={styles.navLink} onClick={handleLang}>
               <FontAwesomeIcon icon={faEarthAmericas} className="mr-2 flex flex-row" />
               中 | EN
             </Nav.Link>
