@@ -1,13 +1,15 @@
 import "@testing-library/jest-dom";
 import { jest } from "@jest/globals"; 
-import { setConfig } from "next/config";
-import config from "./next.config";
 
-setConfig(config);
-require("dotenv").config();
+jest.mock("next/config", () => () => ({
+	publicRuntimeConfig: {
+		apiRoot: "http://localhost:8000",
+		frontendRoot: "http://localhost:3000",
+	},
+}));
 
-jest.mock("next-auth/react", () => {
-	const originalModule = jest.requireActual("next-auth/react");
+jest.mock("@auth0/nextjs-auth0/client", () => {
+	const originalModule = jest.requireActual("@auth0/nextjs-auth0/client");
 	const mockSession = {
 		expires: new Date(Date.now() + 2 * 86400).toISOString(),
 		user: { name: "admin", email: "cloudnativeg23@gmail.com" }
@@ -15,8 +17,12 @@ jest.mock("next-auth/react", () => {
 	return {
 			__esModule: true,
 			...originalModule,
-			useSession: jest.fn(() => 
+			useUser: jest.fn(() => 
 			({data: mockSession, status: "authenticated"})  // return type is [] in v3 but changed to {} in v4
 		),
 	};
 });
+
+jest.mock("next/router", () => ({
+	useRouter: jest.fn()
+}));

@@ -73,7 +73,6 @@ function a11yProps(index) {
 function EditVenue() {
 
 	const { t } = useTranslation();
-	const [venueIsReady, setVenueIsReady] = useState(false);
 	const [venueInfo, setVenueInfo] = useState(null);
 	const [value, setValue] = useState(1);
 	const [showAlert, setShowAlert] = useState(false);
@@ -92,7 +91,6 @@ function EditVenue() {
 		console.log("get info response", res);
 
 		setVenueInfo(res.data);
-		setVenueIsReady(true);
 	};
 
 	// fetch venue detail
@@ -167,7 +165,7 @@ function EditVenue() {
 		router.push("/admin");
 	};
 
-	return venueIsReady ? (
+	return (
 		<ThemeProvider theme={theme}>
 			<Head>
 				<title>{t("Stadium Matching System")}</title>
@@ -286,7 +284,7 @@ function EditVenue() {
 				type="edit"
 			/>
 		</ThemeProvider>
-	) : null;
+	);
 }
 
 export default EditVenue;

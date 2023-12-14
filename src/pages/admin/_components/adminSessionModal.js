@@ -16,7 +16,7 @@ function AdminSessionModal({
 }) {
   const { t } = useTranslation();
   const [modalWidth, setModalWidth] = useState("30vw");
-  const venue = `${venueInfo.name} ${venueInfo.venue_name}`;
+  const venue = `${venueInfo?.name} ${venueInfo?.venue_name}`;
   const { startDate, startTime, endDate, endTime, status } = clickEditData || {
     startDate: "2021-10-20",
     endDate: "2021-10-20",

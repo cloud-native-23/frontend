@@ -10,7 +10,6 @@ import styles from "@/styles/venue.module.css";
 function Venue() {
 
 	const { t } = useTranslation();
-	const [venueIsReady, setVenueIsReady] = useState(false);
 	const [venueInfo, setVenueInfo] = useState(null);
 
 	const fetchVenueInfo = async (id) => {
@@ -20,7 +19,6 @@ function Venue() {
 		const res = await axios.post("/api/v1/stadium/info", {}, { params });
 
 		setVenueInfo(res.data);
-		setVenueIsReady(true);
 	};
 
 	useEffect(() => {
@@ -32,7 +30,7 @@ function Venue() {
 		}
 	}, []);
 
-	return venueIsReady ? (
+	return (
 		<>
 			<Head>
 				<title>{t("Stadium Matching System")}</title>
@@ -46,7 +44,7 @@ function Venue() {
 				{/* Subsection */}
 				<Row>
 					<Col className="text-center">
-						<h3>{venueInfo?.name}</h3>
+						<h3 data-testid="name">{venueInfo?.name}</h3>
 					</Col>
 				</Row>
 
@@ -72,7 +70,7 @@ function Venue() {
 				</Row>
 			</Container>
 		</>
-	) : null;
+	);
 }
 
 export default Venue;

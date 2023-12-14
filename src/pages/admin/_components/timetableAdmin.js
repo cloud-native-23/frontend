@@ -24,10 +24,10 @@ function AdminTimeTable({ venueInfo, refresh, setRefresh }) {
 	const [clickEditData, setClickEditData] = useState(null);
 	const [windowSize, setWindowSize] = useState([(typeof window !== "undefined") ? [window.innerWidth, window.innerHeight] : [0, 0]]);
 
-	const getTimeTable = async (queryDate) => {
+	const getTimeTable = async (venueId, queryDate) => {
 		setLoading(true);
 		const params = {
-			stadium_id: venueInfo.id,
+			stadium_id: venueId,
 			query_date: queryDate.format("YYYY-MM-DD")
 		};
 
@@ -47,12 +47,12 @@ function AdminTimeTable({ venueInfo, refresh, setRefresh }) {
 
 	// init time table data
 	useEffect(() => {
-		getTimeTable(startDate);
+		getTimeTable(venueInfo?.id, startDate);
 		if (refresh) {
 			getTimeTable(startDate);
 			setRefresh((prev) => !prev);
 		}
-	}, [startDate, refresh]);
+	}, [venueInfo, startDate, refresh]);
 
 	/** handle window resize */
 	useEffect(() => {
