@@ -112,14 +112,14 @@ function EditVenue() {
 	const handleEditClick = () => {
 		// Check if all required fields are filled
 		if (
-			venueInfo.picture === "" ||
-			venueInfo.address === "" ||
-			venueInfo.name === "" ||
-			venueInfo.venue_name === "" ||
-			venueInfo.max_number_of_people === 0 ||
-			venueInfo.stadium_courts.length === 0 ||
-			venueInfo.available_times.weekdays.length === 0 ||
-			venueInfo.description === "") {
+			venueInfo?.picture === "" ||
+			venueInfo?.address === "" ||
+			venueInfo?.name === "" ||
+			venueInfo?.venue_name === "" ||
+			venueInfo?.max_number_of_people === 0 ||
+			venueInfo?.stadium_courts.length === 0 ||
+			venueInfo?.available_times.weekdays.length === 0 ||
+			venueInfo?.description === "") {
 			// setShowAlert(true);
 			alert(t("請填寫所有必填欄位（包含圖片）"));
 			return;
@@ -207,7 +207,7 @@ function EditVenue() {
 									textColor='primary'
 									indicatorColor='primary'
 								>
-									<Tab label={t("場地資訊")} {...a11yProps(0)} />
+									<Tab data-testid="info-tab" label={t("場地資訊")} {...a11yProps(0)} />
 									<Tab label={t("場地時段")} {...a11yProps(1)} />
 								</Tabs>
 								<ButtonDeleteVenue

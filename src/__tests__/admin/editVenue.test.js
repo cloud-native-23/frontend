@@ -1,5 +1,5 @@
 import { describe, jest, test, expect } from "@jest/globals"; 
-import { render, screen } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import getConfig from "next/config";
 import axios from "axios";
 import EditVenue from "../../pages/admin/editVenue";
@@ -33,5 +33,15 @@ describe("EditVenue testing", () => {
 		// then
 		expect(apiRoot).toBe("http://localhost:8000");
 		expect(mock).toHaveBeenCalledWith(`${apiRoot}/api/v1/stadium/info`, {}, { params });
+	});
+
+	test("EditVenue should click edit button", () => {
+		jest.spyOn(URLSearchParams.prototype, "get").mockReturnValue({ query: {venue: 1} });
+		render(<EditVenue />);
+		const infoTab = screen.queryByTestId("info-tab");
+		fireEvent.click(infoTab);
+		const editButton = screen.getByText("Edit");
+		// expect(editButton).toBeInTheDocument();
+		fireEvent.click(editButton);
 	});
 });

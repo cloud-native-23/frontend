@@ -167,6 +167,7 @@ function NewVenue() {
 					<Col className="text-center ">
 						<div spacing={2} direction="row" className='space-x-7'>
 							<Button
+								data-testid="add-button"
 								variant="outlined"
 								color="secondary"
 								// onClick={() => setShowNewVenueModal(true)}
