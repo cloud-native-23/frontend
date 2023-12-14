@@ -532,17 +532,6 @@ function CourtTable({ venueInfo, date, startTime, endTime, windowSize, people, l
 		</Container>
 	);
 
-	const convertLevelIndexToList = (levelIndex) => {
-		const levels = idx2Level[levelIndex]?.split("_");
-		if (levels?.length === 0) {
-			return <span key={0} className={styles.level}>{t("無")}</span>;
-		}
-
-		return levels?.map((item, index) => (
-			<span key={index} className={styles.level}>{t(levelTranslation[item])}</span>
-		));
-	};
-
 	const getRentResContent = () => {
 		const { data } = rentResponse;
 

@@ -8,18 +8,19 @@ import { useTranslation } from "next-i18next";
 import { getCookie, setCookie } from "cookies-next";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEarthAmericas } from "@fortawesome/free-solid-svg-icons";
-import { useSession, signIn, signOut } from "next-auth/react";
+import { useUser } from "@auth0/nextjs-auth0/client";
+import { useRouter } from "next/router";
 import styles from "@/styles/navbar.module.css";
 import i18n from "@/utils/i18n";
 import UserMenu from "@/components/buttonUserMenu";
 import { setUserCookies, clearAllCookies, getAllCookies } from "@/utils/cookies";
 
-
 function NavBar() {
   const { t } = useTranslation();
-  const { data, status } = useSession();
+  const { user } = useUser();
   const [lang, setLang] = useState(getCookie("lang") ?? "en");
   const timeoutRef = useRef(null);
+  const router = useRouter();
 
   const initLang = () => {
     i18n.changeLanguage(lang);
@@ -33,7 +34,6 @@ function NavBar() {
   };
 
   const handleLogout = () => {
-    signOut();
     clearAllCookies();
   };
 
@@ -45,19 +45,17 @@ function NavBar() {
   useEffect(() => {
     // After login, set user cookies and reload the page
     // to show the admin if the user is provider
-    if (data?.user !== undefined && Object.keys(getAllCookies()).length === 0) {
-      setUserCookies(data?.user).then(() => {
-        window.location.reload(false);
-      });
+    if (user !== undefined && Object.keys(getAllCookies()).length === 0) {
+      setUserCookies(user);
     }
 
     // If token is expired, sign out and clear all cookies
-    if (data?.user !== undefined && Object.keys(getAllCookies()).length === 2) {
-      signOut();
+    if (user !== undefined && Object.keys(getAllCookies()).length === 2) {
+      router.push("/api/auth/logout");
       clearAllCookies();
       alert(t("連線逾時，請重新登入！"));
     }
-  }, [data?.user]);
+  }, [user]);
 
 
   const [expanded, setExpanded] = useState(false);
@@ -82,19 +80,17 @@ function NavBar() {
             <Nav.Link data-testid="home" href="/admin" className={styles.navLink}>
               {t("Home")}
             </Nav.Link>
-            {status === "authenticated" ? (
+            {user ? (
               <>
                 {/* Check if the Navbar is collapsed */}
                 <UserMenu
-                  data={data}
+                  data={user}
                   signOut={handleLogout}
                   expanded={expanded}
                 />
               </>
             ) : (
-              <button className={styles.navLink} onClick={() => signIn("google")}>
-                {t("Login")}
-              </button>
+              <Nav.Link className={styles.navLink} href="/api/auth/login">{t("Login")}</Nav.Link>
             )}
             <Nav.Link data-testid="lang" className={styles.navLink} onClick={handleLang}>
               <FontAwesomeIcon icon={faEarthAmericas} className="mr-2 flex flex-row" />
